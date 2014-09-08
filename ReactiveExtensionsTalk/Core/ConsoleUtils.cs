@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 
-namespace Utils
+namespace Core
 {
     public static class ConsoleUtils
     {

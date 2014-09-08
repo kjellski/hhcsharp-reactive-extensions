@@ -1,5 +1,5 @@
 ﻿
-namespace _01_Observable
+namespace Core
 {
     public struct Location
     {

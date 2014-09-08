@@ -1,4 +1,4 @@
-﻿using Utils;
+﻿using Core;
 
 namespace _01_Observable
 {
