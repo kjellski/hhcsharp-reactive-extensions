@@ -1,4 +1,7 @@
-﻿using Core;
+﻿using System;
+using Core;
+
+
 
 namespace _01_Observable
 {
@@ -6,25 +9,22 @@ namespace _01_Observable
     {
         public static void Main()
         {
-            /* Small Recap:
-             * 
-             * Observable<T>:
-             *     Subscribe(Observer<T>)
-             *     
-             * Observer<T>:
-             *     OnCompleted()
-             *     OnError(Exception)
-             *     OnNext(T)
-             */
-
-            // Define a provider and two observers.
+            Console.WriteLine("02 Observable with POCOs");
             var provider = new LocationTracker();
+
 
             var reporter1 = new LocationReporter("FixedGPS ");
             reporter1.Subscribe(provider);
 
+
+
+
+
             var reporter2 = new LocationReporter("MobileGPS");
             reporter2.Subscribe(provider);
+
+
+
 
             provider.TrackLocation(new Location(47.6456, -123.1312));
             provider.TrackLocation(new Location(31.6677, -11.1199));
@@ -38,4 +38,15 @@ namespace _01_Observable
             ConsoleUtils.WaitForEnter();
         }
     }
+
+    /* Small Recap:
+     * 
+     * Observable<T>:
+     *     Subscribe(Observer<T>)
+     *     
+     * Observer<T>:
+     *     OnCompleted()
+     *     OnError(Exception)
+     *     OnNext(T)
+     */
 }

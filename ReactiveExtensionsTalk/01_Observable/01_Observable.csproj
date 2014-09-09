@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="LocationReporter.cs" />
     <Compile Include="LocationTracker.cs" />
-    <Compile Include="LocationUnknownException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
