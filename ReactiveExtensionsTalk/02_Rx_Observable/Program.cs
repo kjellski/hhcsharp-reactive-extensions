@@ -13,20 +13,16 @@ namespace _02_Rx_Observable
             var provider = new Subject<Location>();
 
             const string reporter1Name = "FixedGPS ";
-            var reporter1 = Observer.Create<Location>(data => PrintLocation(reporter1Name, data),
-                exception => PrintError(reporter1Name, exception),
-                () => PrintCompleted(reporter1Name));
+            var reporter1 = CreateReporterWith(reporter1Name);
             provider.Subscribe(reporter1);
 
             const string reporter2Name = "MobileGPS";
-            var reporter2 = Observer.Create<Location>(data => PrintLocation(reporter2Name, data),
-                exception => PrintError(reporter2Name, exception),
-                () => PrintCompleted(reporter2Name));
+            var reporter2 = CreateReporterWith(reporter2Name);
             provider.Subscribe(reporter2);
 
             provider.OnNext(new Location(47.6456, -123.1312));
             provider.OnNext(new Location(31.6677, -11.1199));
-            
+
             reporter1.OnCompleted();
 
             provider.OnNext(new Location(84.6677, -21.1023));
@@ -34,6 +30,14 @@ namespace _02_Rx_Observable
             provider.Dispose();
 
             ConsoleUtils.WaitForEnter();
+        }
+
+        private static IObserver<Location> CreateReporterWith(string reporterName)
+        {
+            return Observer.Create<Location>(
+                data => PrintLocation(reporterName, data), //        OnNext()
+                exception => PrintError(reporterName, exception), // OnError()
+                () => PrintCompleted(reporterName)); //              OnCompleted()
         }
 
         private static void PrintCompleted(string name)

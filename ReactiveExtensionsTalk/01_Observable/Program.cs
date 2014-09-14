@@ -10,17 +10,17 @@ namespace _01_Observable
         public static void Main()
         {
             Console.WriteLine("02 Observable with POCOs");
-            var provider = new LocationTracker();
+            var provider = new LocationTracker(); // Observable
 
 
-            var reporter1 = new LocationReporter("FixedGPS ");
+            var reporter1 = new LocationReporter("FixedGPS "); // Observer
             reporter1.Subscribe(provider);
 
 
 
 
 
-            var reporter2 = new LocationReporter("MobileGPS");
+            var reporter2 = new LocationReporter("MobileGPS"); // Observer
             reporter2.Subscribe(provider);
 
 
