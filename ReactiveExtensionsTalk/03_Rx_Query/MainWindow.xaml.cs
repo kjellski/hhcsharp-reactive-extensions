@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace _03_Rx_Query
 {
@@ -20,9 +11,18 @@ namespace _03_Rx_Query
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<string> wordList;
+
         public MainWindow()
         {
             InitializeComponent();
+            InitializeWords();
+        }
+
+        private void InitializeWords()
+        {
+            wordList = File.ReadAllLines(@"..\..\words.txt").ToList();
+            wordList.ForEach(item => ListBox.Items.Add(item));
         }
     }
 }

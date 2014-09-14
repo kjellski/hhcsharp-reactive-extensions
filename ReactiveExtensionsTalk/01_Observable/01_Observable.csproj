@@ -45,6 +45,8 @@
     <Compile Include="LocationTracker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structural\IObserver.cs" />
+    <Compile Include="Structural\IObservable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
