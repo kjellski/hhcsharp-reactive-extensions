@@ -1,7 +1,7 @@
 ﻿<Window x:Class="_03_Rx_Query.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="352" Width="289">
+        Title="{Binding SelectedItem.Name, ElementName=ListBox}" Height="352" Width="289">
     <Grid>
         <TextBox TextChanged="TextBox_OnTextChanged" x:Name="TextBox" Height="23" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <ListBox x:Name="ListBox" Margin="10,38,10,10"/>

@@ -6,30 +6,42 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using ReactiveUI;
 
 namespace _03_Rx_Query
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private List<string> _wordList;
+        private readonly List<string> _wordList;
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeWords();
-            
-            var textBoxText = SetupSearchQuery();
+            _wordList = InitializeWords();
 
+            SetupSelectCommand();
+
+            var textBoxText = SetupSearchQuery();
             textBoxText
-                //.Throttle(TimeSpan.FromMilliseconds(500))
-                //.ObserveOn(DispatcherScheduler.Current)
-                .Subscribe(s => 
+                .Throttle(TimeSpan.FromMilliseconds(1000))
+                .ObserveOn(DispatcherScheduler.Current)
+                .Subscribe(s =>
                     FillListBoxWith(_wordList.Where(w => w.Contains(s)).ToList()));
 
             FillListBoxWith(_wordList);
+        }
+
+        private void SetupSelectCommand()
+        {
+            // ReactiveUI Extensions
+            this.WhenAny(x => x.ListBox.SelectedItem, item => (String)item.Value).Subscribe(x =>
+            {
+                if (!String.IsNullOrEmpty(x))
+                {
+                    // something more interesting then a MessageBox please...
+                    MessageBox.Show(this, x);
+                }
+            });
         }
 
         private IObservable<string> SetupSearchQuery()
@@ -38,17 +50,22 @@ namespace _03_Rx_Query
                 .Select(e => ((TextBox)e.Sender).Text);
         }
 
-        private void InitializeWords()
+        private List<string> InitializeWords()
         {
-            _wordList = File.ReadAllLines(@"..\..\words.txt").ToList();
+            return File.ReadAllLines(@"..\..\words.txt").ToList();
         }
 
         private void FillListBoxWith(List<string> words)
         {
             ListBox.Items.Clear();
-            words.ForEach(item => ListBox.Items.Add(item));            
+            words.ForEach(item => ListBox.Items.Add(item));
         }
 
+        /// <summary>
+        /// What's the problem really? How do we get to the text?
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             // why does this suck so much???
