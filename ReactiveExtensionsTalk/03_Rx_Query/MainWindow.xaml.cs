@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +9,7 @@ using ReactiveUI;
 
 namespace _03_Rx_Query
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private readonly List<string> _wordList;
 
@@ -23,8 +22,10 @@ namespace _03_Rx_Query
 
             var textBoxText = SetupSearchQuery();
             textBoxText
-                .Throttle(TimeSpan.FromMilliseconds(1000))
-                .ObserveOn(DispatcherScheduler.Current)
+                /*
+                                                                                                                                                                                                                                //.Throttle(TimeSpan.FromMilliseconds(1000))
+                                                                                                                                                                                                                                //.ObserveOn(DispatcherScheduler.Current)
+                */
                 .Subscribe(s =>
                     FillListBoxWith(_wordList.Where(w => w.Contains(s)).ToList()));
 
@@ -34,7 +35,7 @@ namespace _03_Rx_Query
         private void SetupSelectCommand()
         {
             // ReactiveUI Extensions
-            this.WhenAny(x => x.ListBox.SelectedItem, item => (String)item.Value).Subscribe(x =>
+            this.WhenAny(x => x.ListBox.SelectedItem, item => (String) item.Value).Subscribe(x =>
             {
                 if (!String.IsNullOrEmpty(x))
                 {
@@ -47,7 +48,7 @@ namespace _03_Rx_Query
         private IObservable<string> SetupSearchQuery()
         {
             return Observable.FromEventPattern(TextBox, "TextChanged")
-                .Select(e => ((TextBox)e.Sender).Text);
+                .Select(e => ((TextBox) e.Sender).Text);
         }
 
         private List<string> InitializeWords()
