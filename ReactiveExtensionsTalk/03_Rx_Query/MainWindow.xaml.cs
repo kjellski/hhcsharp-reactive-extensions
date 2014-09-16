@@ -20,7 +20,7 @@ namespace _03_Rx_Query
 
             SetupSelectCommand();
 
-            var textBoxText = SetupSearchQuery();
+            var textBoxText = SetupObservableTextBoxContentChange();
             textBoxText
                 /*
                                                                                                                                                                                                                                 //.Throttle(TimeSpan.FromMilliseconds(1000))
@@ -45,7 +45,7 @@ namespace _03_Rx_Query
             });
         }
 
-        private IObservable<string> SetupSearchQuery()
+        private IObservable<string> SetupObservableTextBoxContentChange()
         {
             return Observable.FromEventPattern(TextBox, "TextChanged")
                 .Select(e => ((TextBox) e.Sender).Text);
