@@ -10,28 +10,55 @@ namespace _02_Rx_Observable
         public static void Main()
         {
             Console.WriteLine("02 Observable with Rx");
-            var provider = new Subject<Location>();
 
-            const string reporter1Name = "FixedGPS ";
-            var reporter1 = CreateReporterWith(reporter1Name);
-            provider.Subscribe(reporter1);
+            RecreatedReporterAndTrackerExample();
+            SubjectExample();
+        }
 
-            const string reporter2Name = "MobileGPS";
-            var reporter2 = CreateReporterWith(reporter2Name);
-            provider.Subscribe(reporter2);
+        private static void RecreatedReporterAndTrackerExample()
+        {
+            Console.WriteLine("02 Rebuild Observable with Rx");
+            var provider = new LocationTracker(); // Observable
 
-            provider.OnNext(new Location(47.6456, -123.1312));
-            provider.OnNext(new Location(31.6677, -11.1199));
+            var reporter1 = new LocationReporter("FixedGPS "); // Observer
+            reporter1.Subscribe(provider);
+
+            var reporter2 = new LocationReporter("MobileGPS"); // Observer
+            reporter2.Subscribe(provider);
+
+            provider.TrackLocation(new Location(47.6456, -123.1312));
+            provider.TrackLocation(new Location(31.6677, -11.1199));
 
             reporter1.OnCompleted();
 
-            provider.OnNext(new Location(84.6677, -21.1023));
-            provider.OnError(new LocationUnknownException() /* null won't get in */);
-            provider.Dispose();
+            provider.TrackLocation(new Location(84.6677, -21.1023));
+            provider.TrackLocation(null);
+            provider.EndTransmission();
 
             ConsoleUtils.WaitForEnter();
         }
 
+        private static void SubjectExample()
+        {
+            Console.WriteLine("Subject:");
+            var location = new Subject<Location>(); // Observable
+            var reporter1 = CreateReporterWith("FixedGPS "); // Observer
+            var reporter2 = CreateReporterWith("MobileGPS"); // Observer
+            var subscription1 = location.Subscribe(reporter1);
+            location.Subscribe(reporter2);
+
+            location.OnNext(new Location(47.6456, -123.1312));
+            location.OnNext(new Location(31.6677, -11.1199));
+
+            subscription1.Dispose();
+
+            location.OnNext(new Location(84.6677, -21.1023));
+            location.OnError(new LocationUnknownException());
+            location.OnCompleted();
+
+            ConsoleUtils.WaitForEnter();
+        }
+        
         private static IObserver<Location> CreateReporterWith(string reporterName)
         {
             return Observer.Create<Location>(

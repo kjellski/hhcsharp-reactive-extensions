@@ -1,9 +1,9 @@
 ﻿using System;
 using Core;
 
-namespace _01_Observable
+namespace _02_Rx_Observable
 {
-    public class LocationReporter : IObserver<Location>
+    internal class LocationReporter : IObserver<Location>
     {
         private readonly string _name;
         private IDisposable _unsubscriber;
