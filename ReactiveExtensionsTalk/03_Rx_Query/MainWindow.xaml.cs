@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,33 +23,33 @@ namespace _03_Rx_Query
 
             var textBoxText = SetupObservableTextBoxContentChange();
             textBoxText
-                /*
-                                                                                                                                                                                                                                //.Throttle(TimeSpan.FromMilliseconds(1000))
-                                                                                                                                                                                                                                //.ObserveOn(DispatcherScheduler.Current)
-                */
-                .Subscribe(s =>
-                    FillListBoxWith(_wordList.Where(w => w.Contains(s)).ToList()));
+                .Throttle(TimeSpan.FromMilliseconds(1000))
+                .ObserveOn(DispatcherScheduler.Current)
+                .Subscribe(s => 
+                    FillListBoxWith(_wordList.Where(w => w.StartsWith(s)).ToList()));
 
             FillListBoxWith(_wordList);
         }
 
         private void SetupSelectCommand()
         {
-            // ReactiveUI Extensions
-            this.WhenAny(x => x.ListBox.SelectedItem, item => (String) item.Value).Subscribe(x =>
-            {
-                if (!String.IsNullOrEmpty(x))
+            // START ReactiveUI Extensions
+            this.WhenAny(x => x.ListBox.SelectedItem, item => (String)item.Value)
+                .Subscribe(x =>
                 {
-                    // something more interesting then a MessageBox please...
-                    MessageBox.Show(this, x);
-                }
-            });
+                    if (!String.IsNullOrEmpty(x))
+                    {
+                        // something more interesting then a MessageBox please...
+                        MessageBox.Show(this, x);
+                    }
+                });
+            // END   ReactiveUI
         }
 
         private IObservable<string> SetupObservableTextBoxContentChange()
         {
             return Observable.FromEventPattern(TextBox, "TextChanged")
-                .Select(e => ((TextBox) e.Sender).Text);
+                .Select(e => ((TextBox)e.Sender).Text);
         }
 
         private List<string> InitializeWords()

@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5C07D1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_Rx_Query", "03_Rx_Query\03_Rx_Query.csproj", "{9E6D857C-6A14-4157-B8AB-3EDBC7B03B44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04_Rx_Events", "04_Rx_Events\04_Rx_Events.csproj", "{1A5319AE-477B-424E-AD9E-41D1AE0558DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9E6D857C-6A14-4157-B8AB-3EDBC7B03B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E6D857C-6A14-4157-B8AB-3EDBC7B03B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E6D857C-6A14-4157-B8AB-3EDBC7B03B44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5319AE-477B-424E-AD9E-41D1AE0558DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5319AE-477B-424E-AD9E-41D1AE0558DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5319AE-477B-424E-AD9E-41D1AE0558DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5319AE-477B-424E-AD9E-41D1AE0558DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
